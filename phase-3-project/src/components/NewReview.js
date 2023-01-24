@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 // import { useHistory } from 'react-router-dom';
 
-function NewReview({  }) { 
+function NewReview({addNewReview  }) { 
+    console.log(addNewReview)
     
 const [title, setTitle] = useState('');
 const [image, setImage] = useState('');
@@ -12,41 +13,25 @@ const [comment, setComment] = useState('');
 function handleSubmit(e) { 
     e.preventDefault();
 
-    // const newDate = new Date();
-    // const currentDate = newDate.getDate().toString();
-    // const month = newDate.getMonth() + 1;
-    // const currentMonth = month.toString();
-    // const currentYear = newDate.getFullYear().toString();
+    const newReview = {
+        title: title,
+        image: image,
+        comment: comment
+    }
 
-    // const newComic = { 
-    //     title: title, 
-    //     img: image, 
-    //     alt: comment,
-    //     month: currentMonth,
-    //     link: "",
-    //     year: currentYear,
-    //     news: "",
-    //     safe_title: title,
-    //     transcript: comment,
-    //     alt: comment,
-    //     day: currentDate,
-    //     favorited: false,
-    //     comments: [],
-    //     alt: comment 
-    // };
 
-    // fetch(`http://localhost:3001/jokes`, {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(newComic),
-    // })
-    // .then(resp => resp.json())
-    // .then(data => {
-    //     handleNewComic(data);
-    //     history.push(`/comics/${data.id}`);
-    // });
+    fetch(`http://localhost:3001/jokes`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newReview),
+    })
+    .then(resp => resp.json())
+    .then(mynewReview => {
+        addNewReview(mynewReview);
+       
+    });
   
 }
 
@@ -64,7 +49,7 @@ function handleSubmit(e) {
                             <input type="text" className="form-control" id="image" value={image} onChange={(e) => setImage(e.target.value)} />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="comments">Comic's Note</label>
+                            <label htmlFor="comments">Comment</label>
                             <textarea className="form-control" id="exampleFormControlTextarea1" rows="3" value={comment} onChange={(e) => setComment(e.target.value)}></textarea>
                         </div>
                         <br></br>
